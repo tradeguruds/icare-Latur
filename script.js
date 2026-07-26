@@ -190,7 +190,7 @@ topBtn.onclick = () => {
 // Contact Form Validation
 // ------------------------------
 
-const form = document.querySelector("form");
+const form = document.querySelector("contact");
 
 if (form) {
 
@@ -232,35 +232,30 @@ if (form) {
 // WhatsApp Enquiry
 // ------------------------------
 
-<script>
-function sendWhatsApp() {
+document.getElementById("enquiryForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
     const name = document.getElementById("name").value;
     const phone = document.getElementById("phone").value;
     const batch = document.getElementById("batch").value;
     const message = document.getElementById("message").value;
 
+    const whatsappNumber = "918446722671"; // Your WhatsApp number
+
     const text =
-`📚 *New Trading Class Enquiry*
+`🎓 *New Student Enquiry*
 
 👤 Name: ${name}
-📱 Phone: ${phone}
-🎯 Batch: ${batch}
+📱 Mobile: ${phone}
+📚 Interested Batch: ${batch}
 
 📝 Message:
 ${message}`;
 
-    const whatsappNumber = "919876543210"; // Replace with your WhatsApp number
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
 
-    window.open(
-        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
-        "_blank"
-    );
-}
-</script>
-    });
-
-}
+    window.open(url, "_blank");
+});
 
 // ------------------------------
 // Copyright Year
