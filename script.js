@@ -232,40 +232,32 @@ if (form) {
 // WhatsApp Enquiry
 // ------------------------------
 
-const sendBtn = document.querySelector('button[type="button"]');
+<script>
+function sendWhatsApp() {
 
-if (sendBtn) {
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const batch = document.getElementById("batch").value;
+    const message = document.getElementById("message").value;
 
-    sendBtn.addEventListener("click", () => {
+    const text =
+`📚 *New Trading Class Enquiry*
 
-        const inputs = document.querySelectorAll("input");
+👤 Name: ${name}
+📱 Phone: ${phone}
+🎯 Batch: ${batch}
 
-        const name = inputs[0].value;
+📝 Message:
+${message}`;
 
-        const phone = inputs[1].value;
+    const whatsappNumber = "919876543210"; // Replace with your WhatsApp number
 
-        const batch = document.querySelector("select").value;
-
-        const msg = document.querySelector("textarea").value;
-
-        const text =
-`Hello tradeguruDS,
-
-Name: ${name}
-Phone: ${phone}
-Batch: ${batch}
-
-Message:
-${msg}`;
-
-        // Replace with your WhatsApp number
-        const whatsappNumber = "918446722671";
-
-        window.open(
-            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
-            "_blank"
-        );
-
+    window.open(
+        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
+        "_blank"
+    );
+}
+</script>
     });
 
 }
