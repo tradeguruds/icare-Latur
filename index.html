@@ -652,31 +652,22 @@
           <span class="eyebrow">Contact</span>
           <h2 style="font-family: var(--font-display); font-size: var(--text-2xl); line-height: 1; margin: 1rem 0 0.75rem;">Collect leads for our next batch.</h2>
           <form>
-            <div class="field">
-              <label>Student name</label>
-              <input type="text" placeholder="Enter full name" />
-            </div>
+        <form id="contact">
+  <input type="text" id="name" placeholder="Student Name" required>
 
-            <div class="field">
-              <label>Phone or WhatsApp</label>
-              <input type="text" placeholder="Write your Mobile Number" />
-            </div>
+  <input type="tel" id="phone" placeholder="Phone or WhatsApp" required>
 
-            <div class="field">
-              <label>Interested batch</label>
-              <select>
-                <option>Basics batch</option>
-                <option>Pro trader batch</option>
-                <option>Elite mentorship</option>
-              </select>
-            </div>
+  <select id="batch">
+    <option>Basics Batch</option>
+    <option>Advanced Batch</option>
+    <option>Options Trading</option>
+    <option>Mentorship</option>
+  </select>
 
-            <div class="field">
-              <label>Message</label>
-              <textarea placeholder="Tell us your experience level and goals"></textarea>
-            </div>
+  <textarea id="message" placeholder="Tell us your goals"></textarea>
 
-            <button class="btn btn-primary" type="button">Send enquiry</button>
+  <button type="submit">Send Enquiry</button>
+</form>
           </form>
         </article>
 
