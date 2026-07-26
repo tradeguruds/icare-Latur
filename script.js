@@ -1,154 +1,288 @@
-// ===============================
-// I Care Latur - JavaScript
-// ===============================
+// ==============================
+// tradeguruDS Trading Classes
+// script.js
+// ==============================
 
-// WhatsApp Booking
+// ------------------------------
+// Dark / Light Theme
+// ------------------------------
 
-function sendWhatsApp() {
+const root = document.documentElement;
+const themeBtn = document.querySelector("[data-theme-toggle]");
 
-const name = document.getElementById("name").value.trim();
-const phone = document.getElementById("phone").value.trim();
-const device = document.getElementById("device").value;
-const model = document.getElementById("model").value.trim();
-const problem = document.getElementById("problem").value.trim();
+let savedTheme = localStorage.getItem("theme");
 
-if (name === "") {
-    alert("Please enter your name.");
-    return;
+if (!savedTheme) {
+    savedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
 }
 
-if (phone === "") {
-    alert("Please enter your mobile number.");
-    return;
-}
+root.setAttribute("data-theme", savedTheme);
 
-if (!/^[6-9]\d{9}$/.test(phone)) {
-    alert("Please enter a valid 10-digit Indian mobile number.");
-    return;
-}
+if (themeBtn) {
 
-const bookingId = "ICL" + Date.now().toString().slice(-6);
+    themeBtn.textContent =
+        savedTheme === "dark" ? "☀️" : "🌙";
 
-const message =
-`*I Care Latur - Repair Slot Booking*
+    themeBtn.addEventListener("click", () => {
 
-🆔 Booking ID: ${bookingId}
+        const current = root.getAttribute("data-theme");
 
-👤 Customer Name: ${name}
+        const next =
+            current === "dark"
+                ? "light"
+                : "dark";
 
-📞 Mobile: ${phone}
+        root.setAttribute("data-theme", next);
 
-📱 Device: ${device}
+        localStorage.setItem("theme", next);
 
-📦 Model: ${model}
+        themeBtn.textContent =
+            next === "dark"
+                ? "☀️"
+                : "🌙";
 
-🛠 Problem:
-${problem}
-
-📍 I Care Latur
-In Front of D-Mart, Latur
-
-Thank You!`;
-
-const url =
-"https://wa.me/918446722671?text=" +
-encodeURIComponent(message);
-
-window.open(url, "_blank");
+    });
 
 }
 
-// ===============================
-// Sticky Navbar Shadow
-// ===============================
+// ------------------------------
+// Smooth Scroll
+// ------------------------------
 
-window.addEventListener("scroll", function () {
+document.querySelectorAll('a[href^="#"]').forEach(link => {
 
-const navbar = document.querySelector(".navbar");
+    link.addEventListener("click", function (e) {
 
-if (window.scrollY > 40) {
-navbar.style.boxShadow = "0 4px 15px rgba(0,0,0,.25)";
-}
-else{
-navbar.style.boxShadow = "none";
-}
+        const target = document.querySelector(this.getAttribute("href"));
+
+        if (!target) return;
+
+        e.preventDefault();
+
+        target.scrollIntoView({
+
+            behavior: "smooth"
+
+        });
+
+    });
 
 });
 
-// ===============================
-// Fade-in Animation
-// ===============================
+// ------------------------------
+// Active Navigation
+// ------------------------------
 
-const observer = new IntersectionObserver((entries)=>{
+const sections = document.querySelectorAll("section");
 
-entries.forEach(entry=>{
+const navLinks = document.querySelectorAll(".nav-links a");
 
-if(entry.isIntersecting){
+window.addEventListener("scroll", () => {
 
-entry.target.style.opacity="1";
-entry.target.style.transform="translateY(0)";
+    let current = "";
+
+    sections.forEach(section => {
+
+        const top = section.offsetTop - 120;
+
+        if (scrollY >= top) {
+
+            current = section.getAttribute("id");
+
+        }
+
+    });
+
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+});
+
+// ------------------------------
+// Sticky Header Shadow
+// ------------------------------
+
+const header = document.querySelector(".site-header");
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 20) {
+
+        header.style.boxShadow =
+            "0 8px 25px rgba(0,0,0,.08)";
+
+    } else {
+
+        header.style.boxShadow = "none";
+
+    }
+
+});
+
+// ------------------------------
+// Scroll To Top Button
+// ------------------------------
+
+const topBtn = document.createElement("button");
+
+topBtn.innerHTML = "↑";
+
+topBtn.className = "top-btn";
+
+document.body.appendChild(topBtn);
+
+Object.assign(topBtn.style, {
+
+    position: "fixed",
+    right: "20px",
+    bottom: "20px",
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    border: "none",
+    background: "#0a7c74",
+    color: "#fff",
+    fontSize: "20px",
+    cursor: "pointer",
+    display: "none",
+    zIndex: "999"
+
+});
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 400) {
+
+        topBtn.style.display = "block";
+
+    } else {
+
+        topBtn.style.display = "none";
+
+    }
+
+});
+
+topBtn.onclick = () => {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+};
+
+// ------------------------------
+// Contact Form Validation
+// ------------------------------
+
+const form = document.querySelector("form");
+
+if (form) {
+
+    form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const name = form.querySelector('input[type="text"]').value.trim();
+
+        const phone = form.querySelectorAll('input')[1].value.trim();
+
+        const message = form.querySelector("textarea").value.trim();
+
+        if (name.length < 3) {
+
+            alert("Please enter your name.");
+
+            return;
+
+        }
+
+        if (!/^[0-9]{10}$/.test(phone)) {
+
+            alert("Enter a valid 10-digit mobile number.");
+
+            return;
+
+        }
+
+        alert("Thank you! Your enquiry has been received.");
+
+        form.reset();
+
+    });
 
 }
 
-});
+// ------------------------------
+// WhatsApp Enquiry
+// ------------------------------
 
-});
+const sendBtn = document.querySelector('button[type="button"]');
 
-document.querySelectorAll(".service-card,.gallery img,.booking-box").forEach(el=>{
+if (sendBtn) {
 
-el.style.opacity="0";
-el.style.transform="translateY(40px)";
-el.style.transition="all .8s ease";
+    sendBtn.addEventListener("click", () => {
 
-observer.observe(el);
+        const inputs = document.querySelectorAll("input");
 
-});
+        const name = inputs[0].value;
 
-// ===============================
-// Current Year in Footer
-// ===============================
+        const phone = inputs[1].value;
 
-const footer = document.querySelector("footer p");
+        const batch = document.querySelector("select").value;
+
+        const msg = document.querySelector("textarea").value;
+
+        const text =
+`Hello tradeguruDS,
+
+Name: ${name}
+Phone: ${phone}
+Batch: ${batch}
+
+Message:
+${msg}`;
+
+        // Replace with your WhatsApp number
+        const whatsappNumber = "918446722671";
+
+        window.open(
+            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
+            "_blank"
+        );
+
+    });
+
+}
+
+// ------------------------------
+// Copyright Year
+// ------------------------------
+
+const footer = document.querySelector(".site-footer");
 
 if (footer) {
 
-footer.innerHTML =
-`© ${new Date().getFullYear()} I Care Latur | Apple Device Repair Specialist`;
+    footer.innerHTML = footer.innerHTML.replace(
+        "2026",
+        new Date().getFullYear()
+    );
 
 }
 
-// ===============================
-// Auto Scroll to Booking
-// ===============================
-
-const bookButtons = document.querySelectorAll('a[href="#booking"]');
-
-bookButtons.forEach(btn => {
-
-btn.addEventListener("click", function(e){
-
-e.preventDefault();
-
-document.getElementById("booking").scrollIntoView({
-
-behavior:"smooth"
-
-});
-
-});
-
-});
-
-// ===============================
-// Success Message
-// ===============================
-
-document.querySelector("button")?.addEventListener("click", function(){
-
-setTimeout(function(){
-
-alert("Thank you! Your booking details will open in WhatsApp.");
-
-},300);
-
-});
+console.log("tradeguruDS Website Loaded Successfully");
