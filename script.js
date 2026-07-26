@@ -1,275 +1,186 @@
-// ==============================
-// tradeguruDS Trading Classes
-// script.js
-// ==============================
+// ===========================
+// tradeguruDS - script.js
+// ===========================
 
-// ------------------------------
-// Dark / Light Theme
-// ------------------------------
+document.addEventListener("DOMContentLoaded", () => {
 
-const root = document.documentElement;
-const themeBtn = document.querySelector("[data-theme-toggle]");
+    // -----------------------
+    // Theme Toggle
+    // -----------------------
+    const root = document.documentElement;
+    const toggle = document.querySelector("[data-theme-toggle]");
 
-let savedTheme = localStorage.getItem("theme");
+    let savedTheme = localStorage.getItem("theme");
 
-if (!savedTheme) {
-    savedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-}
+    if (!savedTheme) {
+        savedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+    }
 
-root.setAttribute("data-theme", savedTheme);
+    root.setAttribute("data-theme", savedTheme);
 
-if (themeBtn) {
+    if (toggle) {
+        toggle.addEventListener("click", () => {
+            const newTheme =
+                root.getAttribute("data-theme") === "dark"
+                    ? "light"
+                    : "dark";
 
-    themeBtn.textContent =
-        savedTheme === "dark" ? "☀️" : "🌙";
+            root.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+        });
+    }
 
-    themeBtn.addEventListener("click", () => {
+    // -----------------------
+    // Smooth Navigation
+    // -----------------------
 
-        const current = root.getAttribute("data-theme");
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
 
-        const next =
-            current === "dark"
-                ? "light"
-                : "dark";
+        link.addEventListener("click", function(e) {
 
-        root.setAttribute("data-theme", next);
+            const target = document.querySelector(this.getAttribute("href"));
 
-        localStorage.setItem("theme", next);
+            if (target) {
+                e.preventDefault();
 
-        themeBtn.textContent =
-            next === "dark"
-                ? "☀️"
-                : "🌙";
-
-    });
-
-}
-
-// ------------------------------
-// Smooth Scroll
-// ------------------------------
-
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-
-    link.addEventListener("click", function (e) {
-
-        const target = document.querySelector(this.getAttribute("href"));
-
-        if (!target) return;
-
-        e.preventDefault();
-
-        target.scrollIntoView({
-
-            behavior: "smooth"
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
 
         });
 
     });
 
-});
+    // -----------------------
+    // Contact Form
+    // -----------------------
 
-// ------------------------------
-// Active Navigation
-// ------------------------------
+    const form = document.querySelector("form");
 
-const sections = document.querySelectorAll("section");
+    if (form) {
 
-const navLinks = document.querySelectorAll(".nav-links a");
+        const button = form.querySelector("button");
 
-window.addEventListener("scroll", () => {
-
-    let current = "";
-
-    sections.forEach(section => {
-
-        const top = section.offsetTop - 120;
-
-        if (scrollY >= top) {
-
-            current = section.getAttribute("id");
-
-        }
-
-    });
-
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (link.getAttribute("href") === "#" + current) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-});
-
-// ------------------------------
-// Sticky Header Shadow
-// ------------------------------
-
-const header = document.querySelector(".site-header");
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 20) {
-
-        header.style.boxShadow =
-            "0 8px 25px rgba(0,0,0,.08)";
-
-    } else {
-
-        header.style.boxShadow = "none";
+        button.addEventListener("click", sendWhatsApp);
 
     }
 
 });
 
-// ------------------------------
-// Scroll To Top Button
-// ------------------------------
 
-const topBtn = document.createElement("button");
+// ===========================
+// WhatsApp Function
+// ===========================
 
-topBtn.innerHTML = "↑";
+function sendWhatsApp() {
 
-topBtn.className = "top-btn";
+    const name =
+        document.querySelector('input[type="text"]').value.trim();
 
-document.body.appendChild(topBtn);
+    const phone =
+        document.querySelectorAll('input[type="text"]')[1].value.trim();
 
-Object.assign(topBtn.style, {
+    const batch =
+        document.querySelector("select").value;
 
-    position: "fixed",
-    right: "20px",
-    bottom: "20px",
-    width: "50px",
-    height: "50px",
-    borderRadius: "50%",
-    border: "none",
-    background: "#0a7c74",
-    color: "#fff",
-    fontSize: "20px",
-    cursor: "pointer",
-    display: "none",
-    zIndex: "999"
+    const message =
+        document.querySelector("textarea").value.trim();
 
-});
+    if (!name || !phone) {
 
-window.addEventListener("scroll", () => {
+        alert("Please enter your Name and Mobile Number.");
 
-    if (window.scrollY > 400) {
-
-        topBtn.style.display = "block";
-
-    } else {
-
-        topBtn.style.display = "none";
+        return;
 
     }
 
-});
-
-topBtn.onclick = () => {
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-};
-
-// ------------------------------
-// Contact Form Validation
-// ------------------------------
-
-const form = document.querySelector("contact");
-
-if (form) {
-
-    form.addEventListener("submit", function (e) {
-
-        e.preventDefault();
-
-        const name = form.querySelector('input[type="text"]').value.trim();
-
-        const phone = form.querySelectorAll('input')[1].value.trim();
-
-        const message = form.querySelector("textarea").value.trim();
-
-        if (name.length < 3) {
-
-            alert("Please enter your name.");
-
-            return;
-
-        }
-
-        if (!/^[0-9]{10}$/.test(phone)) {
-
-            alert("Enter a valid 10-digit mobile number.");
-
-            return;
-
-        }
-
-        alert("Thank you! Your enquiry has been received.");
-
-        form.reset();
-
-    });
-
-}
-
-// ------------------------------
-// WhatsApp Enquiry
-// ------------------------------
-
-document.getElementById("contact").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    const name = document.getElementById("name").value;
-    const phone = document.getElementById("phone").value;
-    const batch = document.getElementById("batch").value;
-    const message = document.getElementById("message").value;
-
-    const whatsappNumber = "918446722671"; // Your WhatsApp number
+    const whatsappNumber = "91XXXXXXXXXX"; // Replace with your number
 
     const text =
-`🎓 *New Student Enquiry*
+`📚 New Trading Class Enquiry
 
-👤 Name: ${name}
-📱 Mobile: ${phone}
-📚 Interested Batch: ${batch}
+👤 Name : ${name}
 
-📝 Message:
+📱 Mobile : ${phone}
+
+🎯 Batch : ${batch}
+
+📝 Message :
 ${message}`;
 
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    const url =
+`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
 
     window.open(url, "_blank");
-});
-
-// ------------------------------
-// Copyright Year
-// ------------------------------
-
-const footer = document.querySelector(".site-footer");
-
-if (footer) {
-
-    footer.innerHTML = footer.innerHTML.replace(
-        "2026",
-        new Date().getFullYear()
-    );
 
 }
 
-console.log("tradeguruDS Website Loaded Successfully");
+
+// ===========================
+// Fade Animation
+// ===========================
+
+const observer = new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.style.opacity="1";
+            entry.target.style.transform="translateY(0)";
+
+        }
+
+    });
+
+},{
+    threshold:0.2
+});
+
+document.querySelectorAll(".card,.pricing-card,.testimonial,.contact-card,.stat-card").forEach(el=>{
+
+    el.style.opacity="0";
+    el.style.transform="translateY(30px)";
+    el.style.transition="all .6s ease";
+
+    observer.observe(el);
+
+});
+
+
+// ===========================
+// Header Shadow
+// ===========================
+
+window.addEventListener("scroll",()=>{
+
+    const header=document.querySelector(".site-header");
+
+    if(window.scrollY>50){
+
+        header.style.boxShadow="0 8px 20px rgba(0,0,0,.12)";
+
+    }else{
+
+        header.style.boxShadow="none";
+
+    }
+
+});
+
+
+// ===========================
+// Current Year
+// ===========================
+
+const footer=document.querySelector(".site-footer");
+
+if(footer){
+
+    footer.innerHTML=
+    footer.innerHTML.replace("2026",new Date().getFullYear());
+
+}
