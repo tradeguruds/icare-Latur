@@ -1,202 +1,286 @@
-/* ===========================
-   TABLET (991px)
-=========================== */
+/* ============================= */
+/* ANIMATIONS */
+/* ============================= */
 
-@media (max-width:991px){
+*{
+    transition:all .3s ease;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+/* Fade Animation */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(60px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.hero,
+.section,
+.card,
+.pricing-card,
+.stat-card,
+.testimonial,
+.contact-card{
+    animation:fadeUp .8s ease forwards;
+}
+
+/* Floating */
+
+@keyframes floating{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+.hero-panel{
+    animation:floating 5s ease-in-out infinite;
+}
+
+/* Candle Animation */
+
+.candles span{
+    animation:candleMove 2s infinite alternate;
+}
+
+@keyframes candleMove{
+    from{
+        transform:scaleY(.9);
+    }
+    to{
+        transform:scaleY(1.2);
+    }
+}
+
+/* Card Hover */
+
+.card:hover,
+.pricing-card:hover,
+.testimonial:hover,
+.contact-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+/* Buttons */
+
+.btn{
+    position:relative;
+    overflow:hidden;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+.btn::before{
+    content:'';
+    position:absolute;
+    left:-120%;
+    top:0;
+    width:120%;
+    height:100%;
+    background:rgba(255,255,255,.25);
+    transform:skewX(-25deg);
+}
+
+.btn:hover::before{
+    left:150%;
+    transition:.7s;
+}
+
+/* Navbar */
+
+.site-header{
+    transition:.4s;
+}
+
+.site-header:hover{
+    box-shadow:0 8px 30px rgba(0,0,0,.15);
+}
+
+/* Links */
+
+.nav-links a{
+    position:relative;
+}
+
+.nav-links a::after{
+    content:'';
+    position:absolute;
+    width:0;
+    height:2px;
+    left:0;
+    bottom:-4px;
+    background:var(--color-primary);
+    transition:.4s;
+}
+
+.nav-links a:hover::after{
+    width:100%;
+}
+
+/* Inputs */
+
+input:focus,
+textarea:focus,
+select:focus{
+    outline:none;
+    border-color:var(--color-primary);
+    box-shadow:0 0 15px rgba(0,180,160,.3);
+}
+
+/* Pricing */
+
+.featured{
+    animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{
+        box-shadow:0 0 20px rgba(0,180,160,.2);
+    }
+    to{
+        box-shadow:0 0 35px rgba(0,180,160,.6);
+    }
+}
+
+/* Hero */
+
+.hero-copy h1{
+    animation:fadeUp 1s ease;
+}
+
+.hero-copy p{
+    animation:fadeUp 1.2s ease;
+}
+
+.hero-cta{
+    animation:fadeUp 1.4s ease;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media(max-width:1200px){
 
 .container{
 width:95%;
 }
 
-.hero-layout,
-.program-grid,
-.pricing-grid,
-.testimonial-grid,
-.contact-wrap,
-.faq-grid{
+.hero-layout{
 grid-template-columns:1fr;
-}
-
-.hero-copy{
 text-align:center;
 }
 
 .hero-copy p{
-max-width:100%;
+margin:auto;
 }
 
 .hero-cta{
 justify-content:center;
 }
 
-.hero-panel{
-margin-top:30px;
 }
 
-.section-head{
-flex-direction:column;
-align-items:center;
-text-align:center;
-}
+@media(max-width:992px){
 
-.footer-row{
-flex-direction:column;
-text-align:center;
-}
-
-}
-
-
-/* ===========================
-   MOBILE (768px)
-=========================== */
-
-@media (max-width:768px){
-
-.nav-links{
-display:none;
-}
-
-.nav-row{
-flex-wrap:wrap;
-padding:12px 0;
-}
-
-.brand{
-font-size:18px;
-}
-
-.brand-mark{
-width:40px;
-height:40px;
-}
-
-.hero{
-padding:40px 0;
-}
-
-.hero-copy h1{
-font-size:42px;
-line-height:1.1;
-text-align:center;
-}
-
-.hero-copy p{
-font-size:17px;
-text-align:center;
-}
-
-.hero-cta{
-flex-direction:column;
-align-items:stretch;
-}
-
-.btn{
-width:100%;
-}
-
-.hero-stats,
-.signal-row{
-grid-template-columns:1fr;
-}
-
-.card,
-.pricing-card,
-.testimonial,
-.contact-card,
-.stat-card{
-padding:20px;
-}
-
-.price{
-font-size:34px;
+.program-grid,
+.pricing-grid,
+.testimonial-grid{
+grid-template-columns:repeat(2,1fr);
 }
 
 .contact-wrap{
 grid-template-columns:1fr;
 }
 
+}
+
+@media(max-width:768px){
+
+.nav-links{
+display:none;
+}
+
+.hero-stats,
+.signal-row,
+.program-grid,
+.pricing-grid,
+.testimonial-grid,
+.faq-grid{
+grid-template-columns:1fr;
+}
+
+.hero-copy h1{
+font-size:42px;
+}
+
+.btn{
+width:100%;
+}
+
+.hero-cta{
+flex-direction:column;
+}
+
+.brand span:last-child{
+font-size:18px;
+}
+
 .section{
-padding:50px 0;
-}
-
-.section-head h2{
-font-size:34px;
-text-align:center;
-}
-
-.candles{
-height:180px;
-}
-
-.panel-badge{
-font-size:12px;
-}
-
-.hero-panel{
-padding:20px;
+padding:60px 0;
 }
 
 }
 
-
-/* ===========================
-SMALL MOBILE
-=========================== */
-
-@media (max-width:480px){
-
-.container{
-width:92%;
-}
+@media(max-width:480px){
 
 .hero-copy h1{
 font-size:34px;
 }
 
-.hero-copy p{
-font-size:16px;
-}
-
-.brand span:last-child{
-font-size:16px;
-}
-
 .price{
-font-size:30px;
+font-size:32px;
 }
 
-.theme-toggle{
-width:42px;
-height:42px;
+.container{
+width:92%;
 }
 
-.btn{
-font-size:15px;
-height:50px;
+.card,
+.pricing-card,
+.contact-card{
+padding:20px;
 }
 
-.field input,
-.field textarea,
-.field select{
-padding:14px;
-font-size:16px;
+.social-buttons{
+flex-direction:column;
 }
 
-.section-head h2{
-font-size:28px;
-}
-
-.hero{
-padding-top:30px;
-}
-
-.signal{
-padding:16px;
-}
-
-.stat-card{
-text-align:center;
+.social-btn{
+width:100%;
+justify-content:center;
 }
 
 }
