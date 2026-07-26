@@ -232,7 +232,7 @@ if (form) {
 // WhatsApp Enquiry
 // ------------------------------
 
-document.getElementById("enquiryForm").addEventListener("submit", function(e) {
+document.getElementById("contact").addEventListener("submit", function(e) {
     e.preventDefault();
 
     const name = document.getElementById("name").value;
